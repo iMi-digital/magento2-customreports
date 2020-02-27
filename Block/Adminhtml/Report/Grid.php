@@ -1,6 +1,8 @@
 <?php
 namespace DEG\CustomReports\Block\Adminhtml\Report;
 
+use DEG\CustomReports\Model\GenericReportCollection;
+use Magento\Framework\DataObject;
 use Magento\Framework\Registry;
 
 
@@ -25,10 +27,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
 
         /** @var $customReport \DEG\CustomReports\Model\CustomReport */
         $customReport = $this->registry->registry('current_customreport');
-        /** @var $genericCollection \DEG\CustomReports\Model\GenericReportCollection */
+        /** @var $genericCollection GenericReportCollection */
         $genericCollection = $customReport->getGenericReportCollection();
         $columnList = $this->getColumnListFromCollection($genericCollection);
-        if (count($columnList)) {
+        if ($columnList->hasData()) {
             $this->addColumnSet($columnList);
             $this->addGridExportBlock();
             $this->setCollection($genericCollection);
@@ -36,6 +38,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         parent::_prepareLayout();
     }
 
+    /**
+     * @param GenericReportCollection $collection
+     *
+     * @return DataObject
+     */
     public function getColumnListFromCollection($collection){
         $columnsCollection = clone $collection;
         $columnsCollection->getSelect()->limitPage(1,1);
