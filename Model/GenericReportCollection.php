@@ -16,8 +16,8 @@ class GenericReportCollection extends \Magento\Framework\Data\Collection\Abstrac
     public function __construct(EntityFactoryInterface $entityFactory,
                                 Logger $logger,
                                 FetchStrategyInterface $fetchStrategy,
-                                AdapterInterface $connection = null,
-                                ResourceConnection $resourceConnection = null)
+                                ?AdapterInterface $connection = null,
+                                ?ResourceConnection $resourceConnection = null)
     {
         $resourceConnection = $resourceConnection ?: ObjectManager::getInstance()->get(ResourceConnection::class);
 
